@@ -40,10 +40,108 @@ function createProductCard(product) {
   addToCartButton.addEventListener("click", () => {
     addToCart(product);
   });
-
   card.appendChild(addToCartButton);
 
+  const addToWishListButton = document.createElement("button");
+  addToWishListButton.textContent = "Add to My WishList";
+  addToWishListButton.classList.add("wish-list-button");
+  addToWishListButton.addEventListener("click", () => {
+    addToWishList(product);
+  });
+  card.append(addToWishListButton);
+
   return card;
+}
+function addToWishList(product) {
+  const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
+
+  const existingItem = WishListItems.find((item) => item.id === product.id);
+
+  if (existingItem) {
+    alert(`${existingItem.title} already exists`);
+  } else {
+    WishListItems.push({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    });
+  }
+
+  localStorage.setItem("wishListItems", JSON.stringify(WishListItems));
+
+  updateWishList();
+}
+
+function updateWishList() {
+  console.log("wishlist update");
+  const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
+
+  const wishListItemsContainer = document.getElementById("wishlist-items");
+  wishListItemsContainer.innerHTML = " ";
+
+  let totalWishListItems = 0;
+
+  WishListItems.forEach((item) => {
+    const wishListItem = document.createElement("div");
+    wishListItem.classList.add("wishlist-item");
+
+    const image = document.createElement("img");
+    image.src = item.image;
+    image.alt = item.title;
+    wishListItem.appendChild(image);
+
+    const details = document.createElement("div");
+    details.classList.add("details");
+    const name = document.createElement("span");
+    name.classList.add("wishlist-item-name");
+    name.textContent = item.title;
+    details.appendChild(name);
+
+    const price = document.createElement("span");
+    price.classList.add("wishlist-item-price");
+    price.textContent = "$" + item.price.toFixed(2);
+    details.appendChild(price);
+
+    const addToCartButton = document.createElement("button");
+    addToCartButton.textContent = "Add to Cart";
+    addToCartButton.addEventListener("click", () => {
+      addToCart(item);
+      removeWishListItem(item.id);
+    });
+    details.appendChild(addToCartButton);
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      removeWishListItem(item.id);
+    });
+    details.appendChild(removeButton);
+
+    wishListItem.appendChild(details);
+
+    wishListItemsContainer.appendChild(wishListItem);
+
+    totalWishListItems += item.quantity;
+    console.log(totalWishListItems);
+  });
+  const totalWishListItemElement = document.getElementById(
+    "total-wishlist-items"
+  );
+  totalWishListItemElement.textContent = `(${totalWishListItems})`;
+}
+
+function removeWishListItem(itemId) {
+  const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
+
+  const updatedWishListItems = WishListItems.filter(
+    (item) => item.id !== itemId
+  );
+
+  localStorage.setItem("wishListItems", JSON.stringify(updatedWishListItems));
+
+  updateWishList();
 }
 
 function addToCart(product) {
@@ -88,15 +186,6 @@ function updateCart() {
 
     const details = document.createElement("div");
     details.classList.add("details");
-    const name = document.createElement("span");
-    name.classList.add("cart-item-name");
-    name.textContent = item.title;
-    details.appendChild(name);
-
-    const price = document.createElement("span");
-    price.classList.add("cart-item-price");
-    price.textContent = "$" + item.price.toFixed(2);
-    details.appendChild(price);
 
     const quantityInput = document.createElement("input");
     quantityInput.type = "number";
@@ -108,6 +197,16 @@ function updateCart() {
     });
 
     details.appendChild(quantityInput);
+
+    const name = document.createElement("span");
+    name.classList.add("cart-item-name");
+    name.textContent = item.title;
+    details.appendChild(name);
+
+    const price = document.createElement("span");
+    price.classList.add("cart-item-price");
+    price.textContent = "$" + item.price.toFixed(2);
+    details.appendChild(price);
 
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
@@ -156,3 +255,4 @@ function updateCartItemQuantity(itemId, quantity) {
 }
 
 updateCart();
+updateWishList();
