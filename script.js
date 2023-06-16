@@ -87,6 +87,7 @@ function updateCart() {
     cartItem.appendChild(image);
 
     const details = document.createElement("div");
+    details.classList.add("details");
     const name = document.createElement("span");
     name.classList.add("cart-item-name");
     name.textContent = item.title;

@@ -7,6 +7,13 @@ main {
   display: flex;
 }
 
+header {
+  text-align: center;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  color: rgba(183, 100, 5, 0.8);
+  margin: 30px 0px;
+}
+
 #product-list {
   width: 70vw;
   /* text-align: justify; */
@@ -60,10 +67,12 @@ main {
   cursor: pointer;
 }
 
-.cart-item {
+/* .cart-item {
   display: flex;
   gap: 5px;
-}
+  align-items: center;
+  justify-content: center;
+} */
 
 .cart-item img {
   width: 20%;
@@ -74,6 +83,11 @@ main {
 .cart-item input {
   width: 50px;
   margin: 2px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
 }
 
 #total {
