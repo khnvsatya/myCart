@@ -9,20 +9,22 @@ fetch("https://fakestoreapi.com/products")
     renderProducts(fetchedProducts);
   });
 
+// render the products
 function renderProducts(products) {
-  const productList = document.getElementById("product-list");
+  const productList = document.getElementById("product-list-container");
 
   products.forEach((product) => {
     const productCard = createProductCard(product);
     productList.appendChild(productCard);
   });
 }
-
+// create a card for each product in the list
 function createProductCard(product) {
   const card = document.createElement("div");
   card.classList.add("product-card");
 
   const title = document.createElement("h3");
+  title.classList.add("product-card-header");
   title.textContent = product.title;
   card.append(title);
 
@@ -31,16 +33,20 @@ function createProductCard(product) {
   image.alt = product.title;
   card.appendChild(image);
 
-  const price = document.createElement("span");
+  const price = document.createElement("div");
+  price.classList.add("price");
   price.textContent = "$" + product.price.toFixed(2);
   card.appendChild(price);
+
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.classList.add("card-buttons-container");
 
   const addToCartButton = document.createElement("button");
   addToCartButton.textContent = "Add to Cart";
   addToCartButton.addEventListener("click", () => {
     addToCart(product);
   });
-  card.appendChild(addToCartButton);
+  buttonsDiv.appendChild(addToCartButton);
 
   const addToWishListButton = document.createElement("button");
   addToWishListButton.textContent = "Add to My WishList";
@@ -48,10 +54,13 @@ function createProductCard(product) {
   addToWishListButton.addEventListener("click", () => {
     addToWishList(product);
   });
-  card.append(addToWishListButton);
+  buttonsDiv.append(addToWishListButton);
+  card.append(buttonsDiv);
 
   return card;
 }
+
+// add an item to wish list
 function addToWishList(product) {
   const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
 
@@ -74,6 +83,7 @@ function addToWishList(product) {
   updateWishList();
 }
 
+// update the wish list
 function updateWishList() {
   console.log("wishlist update");
   const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
@@ -132,6 +142,8 @@ function updateWishList() {
   totalWishListItemElement.textContent = `(${totalWishListItems})`;
 }
 
+// remove an item from wish list
+
 function removeWishListItem(itemId) {
   const WishListItems = JSON.parse(localStorage.getItem("wishListItems")) || [];
 
@@ -165,8 +177,8 @@ function addToCart(product) {
   updateCart();
 }
 
+// update the Cart items list
 function updateCart() {
-  console.log("updating..");
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
   const cartItmesContainer = document.getElementById("cart-items");
@@ -230,6 +242,8 @@ function updateCart() {
   totalCartItemElement.textContent = ` (${totalCartItems})`;
 }
 
+//remove an item from cart
+
 function removeCartItem(itemId) {
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
@@ -240,6 +254,7 @@ function removeCartItem(itemId) {
   updateCart();
 }
 
+// update Cart item quantity change
 function updateCartItemQuantity(itemId, quantity) {
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 

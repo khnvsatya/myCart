@@ -10,27 +10,41 @@ main {
 header {
   text-align: center;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  color: rgba(183, 100, 5, 0.8);
+  color: rgb(155, 112, 75);
   margin: 30px 0px;
 }
 
 #product-list {
   width: 70vw;
-  /* text-align: justify; */
 }
 
 #product-list h2 {
   text-align: center;
   margin-bottom: 23px;
 }
-#product-list img {
-  width: 15vw;
+
+#product-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.card-buttons-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin: 10px 0px;
+}
+
+button {
+  padding: 2px;
+  background-color: rgb(179 149 123);
+  margin: 2px;
 }
 
 #side-section {
   width: 30vw;
   text-align: center;
-  /* margin-top: 50px; */
 }
 #cart {
   margin-bottom: 23px;
@@ -41,15 +55,11 @@ header {
 }
 
 #wishlist-items {
-  /* border: 2px solid rgb(1, 87, 21);
-  border-radius: 5px; */
   padding: 15px;
   margin: 11px 0px;
 }
 
 #cart-items {
-  /* border: 2px solid rgb(1, 87, 21);
-  border-radius: 5px; */
   padding: 15px;
 }
 
@@ -65,44 +75,29 @@ header {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
   position: relative;
+  width: 20vw;
 }
-
+.product-card-header {
+  height: 100px;
+}
 .product-card img {
-  position: relative;
   right: 30px;
-  top: 10psx;
+
+  width: 15vw;
+  height: 20vw;
 }
-.product-card span {
-  text-align: right;
-  position: absolute;
-  bottom: 60px;
-  right: 55px;
+.price {
+  margin-top: 25px;
   border: 3px solid rgb(47, 45, 45);
   border-radius: 5px;
   padding: 2px;
   background-color: rgb(171, 171, 171);
 }
 
-.product-card button {
-  display: block;
-
-  margin: 25px auto 5px;
-  cursor: pointer;
-}
-
 .wish-list-button {
-  position: absolute;
-  /* margin: 5px !important; */
   right: 15px;
   top: 0px;
 }
-
-/* .cart-item {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-} */
 
 .cart-item img,
 .wishlist-item img {
